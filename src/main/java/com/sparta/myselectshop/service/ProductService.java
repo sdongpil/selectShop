@@ -1,5 +1,6 @@
 package com.sparta.myselectshop.service;
 
+import com.sparta.myselectshop.dto.ItemDto;
 import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.entity.Product;
 import com.sparta.myselectshop.dto.ProductRequestDto;
@@ -46,5 +47,12 @@ public class ProductService {
         return all.stream()
                 .map(ProductResponseDto::new)
                 .toList();
+    }
+
+    @Transactional
+    public void updateBySearch(Long id, ItemDto itemDto) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 상품을 찾을 수 없습니다."));
+
+        product.updateByItemDto(itemDto);
     }
 }
