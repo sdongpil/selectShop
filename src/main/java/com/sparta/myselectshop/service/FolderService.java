@@ -5,6 +5,7 @@ import com.sparta.myselectshop.entity.Folder;
 import com.sparta.myselectshop.entity.User;
 import com.sparta.myselectshop.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FolderService {
     private final FolderRepository folderRepository;
 
@@ -24,6 +26,7 @@ public class FolderService {
 
         for (String folderName : folderNames) {
             if (!isExistFolderName(folderName, existFolder)) {
+
                 Folder folder = new Folder(folderName, user);
 
                 folderList.add(folder);
@@ -32,11 +35,17 @@ public class FolderService {
             }
         }
         folderRepository.saveAll(folderList);
+
     }
 
     private boolean isExistFolderName(String folderNames, List<Folder> existFolder) {
         for (Folder folder : existFolder) {
             if (folder.getName().equals(folderNames)) {
+
+                log.info("exist folder ={}", folder.getName());
+                log.info("folderNames ={}", folderNames);
+
+
                 return true;
             }
         }
