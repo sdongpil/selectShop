@@ -6,14 +6,12 @@ import com.sparta.myselectshop.security.UserDetailsImpl;
 import com.sparta.myselectshop.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class FolderController {
 
@@ -23,8 +21,7 @@ public class FolderController {
     public void addFolder(@RequestBody FolderRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<String> folderNames = requestDto.getFolderNames();
 
-        folderService.addFolder(folderNames, userDetails.getUser());
-
+        folderService.addFolderV2(folderNames, userDetails.getUser());
     }
 
     @GetMapping("/folders")

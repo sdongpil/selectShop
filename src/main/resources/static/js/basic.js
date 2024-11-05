@@ -278,24 +278,19 @@ function addFolder() {
         return;
     }
 
-    $.ajax({
-        type: "POST",
-        url: `/api/folders`,
-        contentType: "application/json",
-        data: JSON.stringify({
-            folderNames
-        })
-    }).done(function (data, textStatus, xhr) {
-        if(data !== '') {
-            alert("중복된 폴더입니다.");
-            return;
-        }
-        $('#container2').removeClass('active');
-        alert('성공적으로 등록되었습니다.');
-        window.location.reload();
-    })
-        .fail(function(xhr, textStatus, errorThrown) {
-            alert("중복된 폴더입니다.");
+       $.ajax({
+            type: "POST",
+            url: "/api/folders",
+            contentType: "application/json",
+            data: JSON.stringify({ folderNames: folderNames }), // JSON 데이터로 변환하여 전송
+            success: function () {
+                alert("폴더가 성공적으로 추가되었습니다.");
+                window.location.reload(); // 페이지 새로고침으로 업데이트
+            },
+            error: function (xhr, status, error) {
+                console.error("폴더 추가에 실패했습니다:", error);
+                alert("폴더 추가 중 오류가 발생했습니다.");
+            }
         });
 }
 
@@ -340,7 +335,7 @@ function addProductItem(product) {
 function addInputForProductToFolder(productId, button) {
     $.ajax({
         type: 'GET',
-        url: `/api/folders`,
+        url: '/api/folders',
         success: function (folders) {
             const options = folders.map(folder => `<option value="${folder.id}">${folder.name}</option>`)
             const form = `

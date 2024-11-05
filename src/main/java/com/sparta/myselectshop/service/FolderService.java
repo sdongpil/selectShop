@@ -38,6 +38,15 @@ public class FolderService {
 
     }
 
+    public void addFolderV2(List<String> folderNames, User user) {
+
+        List<Folder> folderList = folderNames.stream()
+                .map(f -> new Folder(f, user))
+                .toList();
+
+        folderRepository.saveAll(folderList);
+    }
+
     private boolean isExistFolderName(String folderNames, List<Folder> existFolder) {
         for (Folder folder : existFolder) {
             if (folder.getName().equals(folderNames)) {
